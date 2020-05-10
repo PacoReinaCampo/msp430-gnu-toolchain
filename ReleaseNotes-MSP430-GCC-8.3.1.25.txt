@@ -1,0 +1,40 @@
+﻿MSP430-GCC 8.3.1.25 Release Notes
+---
+GCC
+* Added latest GCC 8.3 patches.
+  + For the full list of improvements to optimizations, compiler messages, new
+    options and more, visit https://gcc.gnu.org/gcc-8/
+* Added support for indirect autoincrement addressing.
+  + GCC will now generate instructions using this addressing mode where
+    appropriate.
+  + This addressing mode is supported by MSP430 for the source operand only.
+* MSP430 extended instructions are no longer used to manipulate variables
+  marked with the "lower" or "noinit" attributes.
+  + GCC assumes variables with these attribute are always in the lower memory
+    region, below address 0x10000.
+  + This can reduce code size and improve performance when used with
+    -mdata-region={upper,either,none}.
+* Fixed MOVA instructions being generated in the indexed addressing mode for
+  indexes larger than 16-bits.
+* General code generation improvements:
+  + Make better use of RLAM and RRAM where possible.
+  + Reduce code size when manipulating pointers in the large memory model.
+  + Use mspabi library functions to perform widening 16-bit multiplication.
+* Allow variables marked with the persistent attribute to be initialized to 0.
+* Fixed occasional incorrect execution of CRT library code when running programs
+  built with both -fexceptions and -mlarge.
+* Fixed hardware multiply instructions being generated to perform widening
+  multiplication at -O3, when a device specified with -mmcu= has no hardware
+  multiply support.
+
+Binutils
+* No changes.
+
+Newlib (C Library)
+* Fixed debugging information for the exit() library function.
+  + When debugging a program in CCS and reaching exit(), previously there was no
+    debugging information displayed. Now the call frame and name of the function
+    are shown.
+
+GDB
+* No changes.
